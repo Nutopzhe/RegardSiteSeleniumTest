@@ -11,9 +11,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 public class MainPage extends AbstractPage {
+    public BasketPage basketPage;
 
     public MainPage() {
         super("https://www.regard.ru/");
+        basketPage = new BasketPage();
     }
 
     public void choosingCategoryAndSubTypeOfProduct(String pathToProductCategory, String pathToProductSubType) {
@@ -27,8 +29,8 @@ public class MainPage extends AbstractPage {
         Assertions.assertNotNull(driver.findElement(By.xpath(String.format("//div[@class='block'][%d]", itemNumber))));
         WebElement buttonAddToCard = driver.findElement(By.xpath(String.format("//div[@class='block'][%d]//div[@class='price']//a", itemNumber)));
 
-        WebElement itemName = driver.findElement(By.xpath("//div[@class='block'][5]//div[@class='aheader']/a"));
-        BasketPage.getInstance().products.add(itemName.getText());
+        WebElement itemName = driver.findElement(By.xpath(String.format("//div[@class='block'][%s]//div[@class='aheader']/a", itemNumber)));
+        basketPage.products.add(itemName.getText());
         buttonAddToCard.click();
     }
 
@@ -52,8 +54,8 @@ public class MainPage extends AbstractPage {
         WebElement buttonAddToCard = driver.findElement(By.xpath("//*[@id='add_cart']"));
         Assertions.assertEquals( "Добавить в корзину", buttonAddToCard.getText());
 
-        WebElement itemName = driver.findElement(By.xpath("//*[@id='goods_head']"));
-        BasketPage.getInstance().products.add(itemName.getText());
+        WebElement itemName = driver.findElementByXPath("//*[@id='hits-long']//div[@class='goods_header']//span");
+        basketPage.products.add(itemName.getAttribute("content"));
         buttonAddToCard.click();
     }
 

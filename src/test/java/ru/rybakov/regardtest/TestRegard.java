@@ -37,6 +37,8 @@ public class TestRegard {
         //8. Нажать на голубую кнопку "Перейти в корзину".
         mainPage.moveToCardFromProductPage();
         //9. Убедиться, что корзина не пустая, и что в ней содержаться ровно те наименования товаров, которые вы покупали.
-        BasketPage.getInstance().products.forEach(System.out::println);
+        BasketPage basketPage = new BasketPage();
+        basketPage.productsIsNotEmpty();
+        basketPage.comparisonOfProductName(mainPage.basketPage.products);
     }
 }
