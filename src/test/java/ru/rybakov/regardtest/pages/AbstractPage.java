@@ -14,8 +14,4 @@ public class AbstractPage {
     public void open() {
         driver.get(baseUrl);
     }
-
-    public void close() {
-        driver.close();
-    }
 }

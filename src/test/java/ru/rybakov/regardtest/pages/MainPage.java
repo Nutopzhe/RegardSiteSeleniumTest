@@ -66,4 +66,28 @@ public class MainPage extends AbstractPage {
         Assertions.assertEquals("Перейти в корзину", buttonMoveToCard.getText());
         buttonMoveToCard.click();
     }
+
+    public void clickOnPersonalAccountTabAndGoToRegistration() {
+        driver.findElement(By.xpath("//span[@class='login']")).click();
+        WebElement registrationTab = driver.findElementByXPath("//*[@id='persona_regShowButton']");
+        registrationTab.click();
+        Assertions.assertEquals(registrationTab.getAttribute("class"), "persona_tab activeTab");
+    }
+
+    public void setLoginAndPassword(String login, String password) {
+        WebElement loginField = driver.findElementByXPath("//*[@id='username']");
+        WebElement passwordField = driver.findElementByXPath("//*[@id='new_password1']");
+
+        loginField.sendKeys(login);
+        passwordField.sendKeys(password);
+    }
+
+    public void clickRegistrationButton() {
+        driver.findElementByXPath("//*[@id='persona_regButton']").click();
+    }
+
+    public void checkingThatLoginIsInvalid() {
+        String invalidMessage = driver.findElementByXPath("//*[@id='regORauth-log']").getText();
+        Assertions.assertTrue(invalidMessage.contains("Недопустимый логин"));
+    }
 }
