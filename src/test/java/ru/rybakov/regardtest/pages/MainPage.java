@@ -11,11 +11,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 public class MainPage extends AbstractPage {
-    public BasketPage basketPage;
 
     public MainPage() {
         super("https://www.regard.ru/");
-        basketPage = new BasketPage();
     }
 
     public void choosingCategoryAndSubTypeOfProduct(String pathToProductCategory, String pathToProductSubType) {
@@ -25,46 +23,27 @@ public class MainPage extends AbstractPage {
         Assertions.assertTrue(driver.getCurrentUrl().contains("catalog"));
     }
 
-    public void addItemToShoppingCard(int itemNumber) {
+    public void addItemToShoppingCard(int itemNumber, List<String> shoppingList) {
         Assertions.assertNotNull(driver.findElement(By.xpath(String.format("//div[@class='block'][%d]", itemNumber))));
         WebElement buttonAddToCard = driver.findElement(By.xpath(String.format("//div[@class='block'][%d]//div[@class='price']//a", itemNumber)));
 
-        WebElement itemName = driver.findElement(By.xpath(String.format("//div[@class='block'][%s]//div[@class='aheader']/a", itemNumber)));
-        basketPage.products.add(itemName.getText());
+        WebElement itemName = driver.findElement(By.xpath(String.format("//div[@class='block'][%d]//div[@class='aheader']/a", itemNumber)));
+        shoppingList.add(itemName.getText());
         buttonAddToCard.click();
     }
 
     public void openPageItem(int itemNumber) {
         //доп проверка, что передаваемое число элемента есть на странице
-        List<WebElement> elements = driver.findElements(By.xpath("//div[@class='content']/div[@class='block']"));
-        Assertions.assertTrue(itemNumber <= elements.size());
+        List<WebElement> countProducts = driver.findElements(By.xpath("//div[@class='content']/div[@class='block']"));
+        Assertions.assertTrue(itemNumber <= countProducts.size());
 
-        WebElement itemPage = driver.findElement(By.xpath(String.format("//div[@class='block'][%s]//a[@class='header']", itemNumber)));
+        WebElement itemPage = driver.findElement(By.xpath(String.format("//div[@class='block'][%d]//a[@class='header']", itemNumber)));
         try{
             itemPage.click();
-        }catch (WebDriverException e){
+        } catch (WebDriverException e){
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true)", itemPage);
             itemPage.click();
-            //или использовать явное нажатие
-            //((JavascriptExecutor) driver).executeScript("arguments[0].click()", itemPage);
         }
-    }
-
-    public void addToCardFromProductPage() {
-        WebElement buttonAddToCard = driver.findElement(By.xpath("//*[@id='add_cart']"));
-        Assertions.assertEquals( "Добавить в корзину", buttonAddToCard.getText());
-
-        WebElement itemName = driver.findElementByXPath("//*[@id='hits-long']//div[@class='goods_header']//span");
-        basketPage.products.add(itemName.getAttribute("content"));
-        buttonAddToCard.click();
-    }
-
-    public void moveToCardFromProductPage() {
-        WebElement buttonMoveToCard = driver.findElement(By.xpath("//*[@id='add_cart']"));
-        //явно ждём, чтобы текст у элемента успел смениться
-        new WebDriverWait(driver, 5).until(ExpectedConditions.textToBePresentInElement(buttonMoveToCard, "Перейти в корзину"));
-        Assertions.assertEquals("Перейти в корзину", buttonMoveToCard.getText());
-        buttonMoveToCard.click();
     }
 
     public void clickOnPersonalAccountTabAndGoToRegistration() {
@@ -89,5 +68,10 @@ public class MainPage extends AbstractPage {
     public void checkingThatLoginIsInvalid() {
         String invalidMessage = driver.findElementByXPath("//*[@id='regORauth-log']").getText();
         Assertions.assertTrue(invalidMessage.contains("Недопустимый логин"));
+    }
+
+    public void openConfigurationPCMenu() {
+        driver.findElementByXPath("//a[text()='Конфигуратор ПК']").click();
+        Assertions.assertTrue(driver.getCurrentUrl().contains("cfg"));
     }
 }
