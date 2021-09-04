@@ -46,6 +46,10 @@ public class MainPage extends AbstractPage {
         }
     }
 
+    public void goToShoppingCard() {
+        driver.findElementByXPath("//div[@id='basket']").click();
+    }
+
     public void clickOnPersonalAccountTabAndGoToRegistration() {
         driver.findElement(By.xpath("//span[@class='login']")).click();
         WebElement registrationTab = driver.findElementByXPath("//*[@id='persona_regShowButton']");

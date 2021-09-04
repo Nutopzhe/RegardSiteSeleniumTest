@@ -47,4 +47,11 @@ public class BasketPage extends AbstractPage {
         driver.findElementByXPath("//a[@title='Очистить корзину']").click();
         driver.switchTo().alert().accept();
     }
+
+    public void deleteProductFromShoppingCard(List<String> shoppingList, int itemNumber) {
+        driver.findElementByXPath(String.format("//tbody//tr[@data-groupid][%d]//a[@title='Удалить товар из корзины']", itemNumber)).click();
+        Assertions.assertTrue(shoppingList.size() >= itemNumber, "Передаваемого номера элемента нет в корзине!");
+        itemNumber--;
+        shoppingList.remove(itemNumber);
+    }
 }
