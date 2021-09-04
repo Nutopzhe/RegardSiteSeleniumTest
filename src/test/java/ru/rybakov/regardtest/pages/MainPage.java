@@ -5,8 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class MainPage extends AbstractPage {
         List<WebElement> countProducts = driver.findElements(By.xpath("//div[@class='content']/div[@class='block']"));
         Assertions.assertTrue(itemNumber <= countProducts.size());
 
-        WebElement itemPage = driver.findElement(By.xpath(String.format("//div[@class='block'][%d]//a[@class='header']", itemNumber)));
+        WebElement itemPage = driver.findElement(By.xpath(String.format("//div[%d]//span[@data-category]/preceding-sibling::a", itemNumber)));
         try{
             itemPage.click();
         } catch (WebDriverException e){
@@ -47,35 +45,35 @@ public class MainPage extends AbstractPage {
     }
 
     public void goToShoppingCard() {
-        driver.findElementByXPath("//div[@id='basket']").click();
+        driver.findElement(By.xpath("//div[@id='basket']")).click();
     }
 
     public void clickOnPersonalAccountTabAndGoToRegistration() {
         driver.findElement(By.xpath("//span[@class='login']")).click();
-        WebElement registrationTab = driver.findElementByXPath("//*[@id='persona_regShowButton']");
+        WebElement registrationTab = driver.findElement(By.xpath("//*[@id='persona_regShowButton']"));
         registrationTab.click();
         Assertions.assertEquals(registrationTab.getAttribute("class"), "persona_tab activeTab");
     }
 
     public void setLoginAndPassword(String login, String password) {
-        WebElement loginField = driver.findElementByXPath("//*[@id='username']");
-        WebElement passwordField = driver.findElementByXPath("//*[@id='new_password1']");
+        WebElement loginField = driver.findElement(By.xpath("//*[@id='username']"));
+        WebElement passwordField = driver.findElement(By.xpath("//*[@id='new_password1']"));
 
         loginField.sendKeys(login);
         passwordField.sendKeys(password);
     }
 
     public void clickRegistrationButton() {
-        driver.findElementByXPath("//*[@id='persona_regButton']").click();
+        driver.findElement(By.xpath("//*[@id='persona_regButton']")).click();
     }
 
     public void checkingThatLoginIsInvalid() {
-        String invalidMessage = driver.findElementByXPath("//*[@id='regORauth-log']").getText();
+        String invalidMessage = driver.findElement(By.xpath("//*[@id='regORauth-log']")).getText();
         Assertions.assertTrue(invalidMessage.contains("Недопустимый логин"));
     }
 
     public void openConfigurationPCMenu() {
-        driver.findElementByXPath("//a[text()='Конфигуратор ПК']").click();
+        driver.findElement(By.xpath("//a[text()='Конфигуратор ПК']")).click();
         Assertions.assertTrue(driver.getCurrentUrl().contains("cfg"));
     }
 }

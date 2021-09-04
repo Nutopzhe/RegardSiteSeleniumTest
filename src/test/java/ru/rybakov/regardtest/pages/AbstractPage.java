@@ -1,10 +1,9 @@
 package ru.rybakov.regardtest.pages;
 
-import org.openqa.selenium.remote.RemoteWebDriver;
-import ru.rybakov.regardtest.utils.DriverWrapper;
+import ru.rybakov.regardtest.utils.WebDriverWrapper;
 
 public class AbstractPage {
-    public RemoteWebDriver driver = DriverWrapper.getInstance();
+    public WebDriverWrapper driver = WebDriverWrapper.getInstance();
     public String baseUrl;
 
     public AbstractPage(String baseUrl) {
