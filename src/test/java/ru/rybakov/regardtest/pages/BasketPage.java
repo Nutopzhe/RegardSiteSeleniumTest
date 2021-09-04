@@ -20,28 +20,31 @@ public class BasketPage extends AbstractPage {
         for (WebElement element : elements) {
             products.add(element.getText());
         }
+        log.debug("Список продуктов был заполнен названиями элементов, которые находятся на странице корзины!");
     }
 
     //очищаем products от всех элементов
     private void removingProductsFromBasket() {
         products.clear();
+        log.debug("Список продуктов очищен");
     }
 
     public void productsIsNotEmpty() {
         fillingBasketWithProducts();
-        Assertions.assertFalse(products.isEmpty());
+        Assertions.assertFalse(products.isEmpty(), "Список продуктов пуст!");
         removingProductsFromBasket();
     }
 
     public void comparisonOfProductName(List<String> comparedProducts) {
         fillingBasketWithProducts();
-        Assertions.assertIterableEquals(products, comparedProducts, "В корзинах есть различия!");
+        Assertions.assertIterableEquals(products, comparedProducts, "В корзине и списке продуктов есть различия!");
         removingProductsFromBasket();
     }
 
     public void clearBasket() {
         driver.findElement(By.xpath("//a[@title='Очистить корзину']")).click();
         driver.switchTo().alert().accept();
+        log.debug("Корзина на сайте успешно очищена!");
     }
 
     public void deleteProductFromShoppingCard(List<String> shoppingList, int itemNumber) {
@@ -49,5 +52,6 @@ public class BasketPage extends AbstractPage {
         Assertions.assertTrue(shoppingList.size() >= itemNumber, "Передаваемого номера элемента нет в корзине!");
         itemNumber--;
         shoppingList.remove(itemNumber);
+        log.debug("Продукт по номеру '{}' был успешно удален из корзины на сайте", itemNumber);
     }
 }

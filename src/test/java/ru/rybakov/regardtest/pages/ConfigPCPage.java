@@ -27,11 +27,13 @@ public class ConfigPCPage extends AbstractPage{
         shoppingList.add(elementByXPath.getText());
         itemNumber--;
         items.get(itemNumber).click();
+        log.debug("Продукт под номером '{}' был успешно добавлен в конфигурацию на странице '{}'", itemNumber, baseUrl);
     }
 
     public void placeAnOrder() {
         driver.waitElementToBeClickable(buttonPlaceAnOrder);
         WebElement buttonPlaceOrder = driver.findElement(By.xpath(buttonPlaceAnOrder));
         buttonPlaceOrder.click();
+        log.debug("Успешный переход на страницу оформления заказа");
     }
 }

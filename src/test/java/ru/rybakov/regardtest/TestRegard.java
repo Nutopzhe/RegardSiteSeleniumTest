@@ -5,10 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import ru.rybakov.regardtest.pages.BasketPage;
-import ru.rybakov.regardtest.pages.ConfigPCPage;
-import ru.rybakov.regardtest.pages.MainPage;
-import ru.rybakov.regardtest.pages.ProductPage;
+import ru.rybakov.regardtest.pages.*;
 import ru.rybakov.regardtest.utils.WebDriverWrapper;
 
 import java.util.ArrayList;
@@ -25,7 +22,7 @@ public class TestRegard {
         mainPage.addItemToShoppingCard(5, shoppingList);
         mainPage.choosingCategoryAndSubTypeOfProduct("Корпуса", "AEROCOOL");
         mainPage.addItemToShoppingCard(4, shoppingList);
-        mainPage.openPageItem(10);
+        mainPage.openProductPage(10);
 
         ProductPage productPage = new ProductPage();
         productPage.addToCardFromProductPage(shoppingList);
