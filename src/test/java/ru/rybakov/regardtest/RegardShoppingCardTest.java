@@ -3,16 +3,15 @@ package ru.rybakov.regardtest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import ru.rybakov.regardtest.pages.*;
 import ru.rybakov.regardtest.utils.WebDriverWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestRegard {
+public class RegardShoppingCardTest {
     List<String> shoppingList = new ArrayList<>();
+    BasketPage basketPage = new BasketPage();
 
     @Test()
     void testAddingProductsToCard() {
@@ -28,11 +27,8 @@ public class TestRegard {
         productPage.addToCardFromProductPage(shoppingList);
         productPage.moveToCardFromProductPage();
 
-        BasketPage basketPage = new BasketPage();
         basketPage.productsIsNotEmpty();
         basketPage.comparisonOfProductName(shoppingList);
-        //Удаляем содержимое корзины для дальнейших тестов
-        basketPage.clearBasket();
     }
 
     @Test
@@ -50,10 +46,8 @@ public class TestRegard {
         configPCPage.selectItem(20, shoppingList);
         configPCPage.placeAnOrder();
 
-        BasketPage basketPage = new BasketPage();
         basketPage.productsIsNotEmpty();
         basketPage.comparisonOfProductName(shoppingList);
-        basketPage.clearBasket();
     }
 
     @Test
@@ -67,30 +61,18 @@ public class TestRegard {
         mainPage.addItemToShoppingCard(4, shoppingList);
         mainPage.goToShoppingCard();
 
-        BasketPage basketPage = new BasketPage();
         basketPage.productsIsNotEmpty();
         basketPage.comparisonOfProductName(shoppingList);
         basketPage.deleteProductFromShoppingCard(shoppingList, 4);
         basketPage.comparisonOfProductName(shoppingList);
         basketPage.deleteProductFromShoppingCard(shoppingList, 1);
         basketPage.comparisonOfProductName(shoppingList);
-        basketPage.clearBasket();
-    }
-
-    @ParameterizedTest(name = "#{index} - test with {0} login")
-    @CsvFileSource(resources = "/invalidLogin.csv", numLinesToSkip = 1)
-    void testRegistrationWithInvalidLogin(String login, String password) {
-        MainPage mainPage = new MainPage();
-        mainPage.open();
-        mainPage.clickOnPersonalAccountTabAndGoToRegistration();
-        mainPage.setLoginAndPassword(login, password);
-        mainPage.clickRegistrationButton();
-        mainPage.checkingThatLoginIsInvalid();
     }
 
     @AfterEach
     void afterEach() {
         shoppingList.clear();
+        basketPage.clearBasket();
     }
 
     @AfterAll
