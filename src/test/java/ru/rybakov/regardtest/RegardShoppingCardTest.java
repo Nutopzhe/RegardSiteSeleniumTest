@@ -75,8 +75,8 @@ public class RegardShoppingCardTest {
         basketPage.clearBasket();
     }
 
-    @AfterAll
-    static void afterAll(){
-        WebDriverWrapper.getInstance().quit();
-    }
+//    @AfterAll
+//    static void afterAll(){
+//        WebDriverWrapper.getInstance().quit();
+//    }
 }

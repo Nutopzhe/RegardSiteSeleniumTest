@@ -19,8 +19,8 @@ public class RegardAuthorizationTest {
         mainPage.checkingThatLoginIsInvalid();
     }
 
-    @AfterAll
-    static void afterAll(){
-        WebDriverWrapper.getInstance().quit();
-    }
+//    @AfterAll
+//    static void afterAll(){
+//        WebDriverWrapper.getInstance().quit();
+//    }
 }
