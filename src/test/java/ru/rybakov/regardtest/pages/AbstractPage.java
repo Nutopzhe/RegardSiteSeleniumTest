@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.rybakov.regardtest.utils.WebDriverWrapper;
 
-public class AbstractPage {
+public abstract class AbstractPage {
     public static Logger log = LogManager.getRootLogger();
     public WebDriverWrapper driver = WebDriverWrapper.getInstance();
     public String baseUrl;
